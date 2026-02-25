@@ -14,12 +14,17 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # This is used during `next build` and ends up in the browser bundle.
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
     container_name: devops-assignment-frontend
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://backend:8000
+      # Not strictly required at runtime for Next.js production,
+      # but harmless and useful for debugging.
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
     depends_on:
       - backend
     restart: unless-stopped
